@@ -7,8 +7,11 @@ import (
 	"go-hexagonal/modules/mongodb"
 
 	"go-hexagonal/api"
+	messagesController "go-hexagonal/api/v1/messages"
 	userController "go-hexagonal/api/v1/user"
+	messagesService "go-hexagonal/business/messages"
 	userService "go-hexagonal/business/user"
+	messagesRepository "go-hexagonal/modules/messages"
 	userRepository "go-hexagonal/modules/user"
 
 	"os"
@@ -56,25 +59,25 @@ func newDatabaseConnection(config *config.AppConfig) *mongo.Database {
 func main() {
 	//load config if available or set to default
 	config := config.GetConfig()
-	fmt.Println("CONFIG", config)
 
 	//initialize database connection based on given config
 	dbConnection := newDatabaseConnection(config)
 
-	//initiate item repository
-	userRepo := userRepository.NewMongoDBRepository(dbConnection)
-
-	//initiate item service
-	userService := userService.NewService(userRepo)
-
-	//initiate item controller
-	userController := userController.NewController(userService)
-
 	//create echo http
 	e := echo.New()
 
-	//register API path and handler
-	api.RegisterPath(e, userController)
+	//initiate messages
+	messagesRepo := messagesRepository.NewMongoDBRepository(dbConnection)
+	messagesService := messagesService.NewService(messagesRepo)
+	messagesController := messagesController.NewController(messagesService)
+
+	//initiate users
+	userRepo := userRepository.NewMongoDBRepository(dbConnection)
+	userService := userService.NewService(userRepo)
+	userController := userController.NewController(userService)
+
+	//register paths
+	api.RegisterPaths(e, messagesController, userController)
 
 	// run server
 	go func() {
