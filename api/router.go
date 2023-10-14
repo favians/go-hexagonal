@@ -1,16 +1,25 @@
 package api
 
 import (
+	"go-hexagonal/api/v1/messages"
 	"go-hexagonal/api/v1/user"
 
 	echo "github.com/labstack/echo/v4"
 )
 
-//RegisterPath Register all V1 API with routing path
-func RegisterPath(e *echo.Echo, userController *user.Controller) {
+//RegisterPaths Register all V1 API with routing path
+func RegisterPaths(e *echo.Echo, messagesController *messages.Controller, userController *user.Controller) {
+	if messagesController == nil {
+		panic("messages controller cannot be nil")
+	}
+
 	if userController == nil {
 		panic("user controller cannot be nil")
 	}
+
+	//messages
+	messagesV1 := e.Group("v1/messages")
+	messagesV1.POST("", messagesController.InsertMessage)
 
 	//user
 	userV1 := e.Group("v1/users")
