@@ -56,6 +56,7 @@ func newDatabaseConnection(config *config.AppConfig) *mongo.Database {
 func main() {
 	//load config if available or set to default
 	config := config.GetConfig()
+	fmt.Println("CONFIG", config)
 
 	//initialize database connection based on given config
 	dbConnection := newDatabaseConnection(config)

@@ -2,6 +2,7 @@ package item
 
 import (
 	"context"
+	"fmt"
 	"go-hexagonal/business"
 	"go-hexagonal/business/user"
 	"time"
@@ -63,7 +64,7 @@ func (col *collection) ToUser() user.User {
 //NewMongoDBRepository Generate mongo DB user repository
 func NewMongoDBRepository(db *mongo.Database) *MongoDBRepository {
 	return &MongoDBRepository{
-		db.Collection("user"),
+		db.Collection("users"),
 	}
 }
 
@@ -128,6 +129,8 @@ func (repo *MongoDBRepository) FindAllUserWithPagination(skip int, rowPerPage in
 func (repo *MongoDBRepository) InsertUser(user user.User) error {
 
 	col := newCollection(user)
+
+	fmt.Println("AQUI INSERTAAAAAAA", user, col)
 
 	_, err := repo.collection.InsertOne(context.Background(), col)
 	if err != nil {
