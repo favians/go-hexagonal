@@ -20,6 +20,7 @@ func RegisterPaths(e *echo.Echo, messagesController *messages.Controller, userCo
 	//messages
 	messagesV1 := e.Group("v1/messages")
 	messagesV1.POST("", messagesController.InsertMessage)
+	messagesV1.GET("/:chatroom", messagesController.GetMessagesByChatroom)
 
 	//user
 	userV1 := e.Group("v1/users")
