@@ -1,9 +1,9 @@
 package user_test
 
 import (
-	"go-hexagonal/business"
-	"go-hexagonal/business/user"
-	userMock "go-hexagonal/business/user/mocks"
+	"chat-hex/business"
+	"chat-hex/business/user"
+	userMock "chat-hex/business/user/mocks"
 
 	"os"
 	"testing"

@@ -1,18 +1,19 @@
 package main
 
 import (
+	"chat-hex/config"
+	"chat-hex/modules/mongodb"
 	"context"
 	"fmt"
-	"go-hexagonal/config"
-	"go-hexagonal/modules/mongodb"
 
-	"go-hexagonal/api"
-	messagesController "go-hexagonal/api/v1/messages"
-	userController "go-hexagonal/api/v1/user"
-	messagesService "go-hexagonal/business/messages"
-	userService "go-hexagonal/business/user"
-	messagesRepository "go-hexagonal/modules/messages"
-	userRepository "go-hexagonal/modules/user"
+	"chat-hex/api"
+	messagesController "chat-hex/api/v1/messages"
+	userController "chat-hex/api/v1/user"
+	commandsService "chat-hex/business/commands"
+	messagesService "chat-hex/business/messages"
+	userService "chat-hex/business/user"
+	messagesRepository "chat-hex/modules/messages"
+	userRepository "chat-hex/modules/user"
 
 	"os"
 	"os/signal"
@@ -66,10 +67,13 @@ func main() {
 	//create echo http
 	e := echo.New()
 
+	//initiate commands
+	commandsService := commandsService.NewService()
+
 	//initiate messages
 	messagesRepo := messagesRepository.NewMongoDBRepository(dbConnection)
 	messagesService := messagesService.NewService(messagesRepo)
-	messagesController := messagesController.NewController(messagesService)
+	messagesController := messagesController.NewController(messagesService, commandsService)
 
 	//initiate users
 	userRepo := userRepository.NewMongoDBRepository(dbConnection)

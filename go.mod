@@ -1,4 +1,4 @@
-module go-hexagonal
+module chat-hex
 
 go 1.16
 

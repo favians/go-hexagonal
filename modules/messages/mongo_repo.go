@@ -1,8 +1,8 @@
 package mongodb
 
 import (
+	"chat-hex/business/messages"
 	"context"
-	"go-hexagonal/business/messages"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"

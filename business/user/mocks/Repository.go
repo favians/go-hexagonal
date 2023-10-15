@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	user "go-hexagonal/business/user"
+	user "chat-hex/business/user"
 
 	mock "github.com/stretchr/testify/mock"
 )

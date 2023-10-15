@@ -1,7 +1,8 @@
 package requests
 
 import (
-	"go-hexagonal/business/messages"
+	"chat-hex/business/commands"
+	"chat-hex/business/messages"
 )
 
 type InsertMessageRequest struct {
@@ -18,4 +19,14 @@ func (req *InsertMessageRequest) ToInsertMessageSpec() *messages.InsertMessageSp
 	insertMessageSpec.Chatroom = req.Chatroom
 
 	return &insertMessageSpec
+}
+
+func (req *InsertMessageRequest) ToCommandSpec() *commands.CommandSpec {
+	var commandSpec commands.CommandSpec
+
+	commandSpec.Content = req.Content
+	commandSpec.Sender = req.Sender
+	commandSpec.Chatroom = req.Chatroom
+
+	return &commandSpec
 }

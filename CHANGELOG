@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.0.4] - 2023-10-15 (CHB-3)
+
+### Added
+
+- Sending a command-like message gets its own workflow instead of storing it by [Arturo Vial](https://github.com/ratolibre1)
+
 ## [0.0.3] - 2023-10-15 (CHB-2)
 
 ### Added
@@ -23,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Hexagonal Architecture scaffolding forked from [Github](https://github.com/favians/go-hexagonal) by [Arturo Vial](https://github.com/ratolibre1)
+- Hexagonal Architecture scaffolding forked from [Github](https://github.com/favians/chat-hex) by [Arturo Vial](https://github.com/ratolibre1)
 
 ### Changed
 

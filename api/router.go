@@ -1,8 +1,8 @@
 package api
 
 import (
-	"go-hexagonal/api/v1/messages"
-	"go-hexagonal/api/v1/user"
+	"chat-hex/api/v1/messages"
+	"chat-hex/api/v1/user"
 
 	echo "github.com/labstack/echo/v4"
 )

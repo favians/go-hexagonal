@@ -1,9 +1,9 @@
 package item
 
 import (
+	"chat-hex/business"
+	"chat-hex/business/user"
 	"context"
-	"go-hexagonal/business"
-	"go-hexagonal/business/user"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
