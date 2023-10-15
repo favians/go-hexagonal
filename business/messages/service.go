@@ -43,3 +43,12 @@ func (s *service) InsertMessage(insertMessageSpec InsertMessageSpec) error {
 
 	return nil
 }
+
+func (s *service) GetMessagesByChatroom(chatroom string) ([]Message, error) {
+	messages, err := s.repository.GetMessagesByChatroom(chatroom)
+	if err != nil {
+		return []Message{}, err
+	}
+
+	return messages, err
+}

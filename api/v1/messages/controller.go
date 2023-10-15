@@ -3,6 +3,7 @@ package messages
 import (
 	"go-hexagonal/api/common"
 	"go-hexagonal/api/v1/messages/requests"
+	"go-hexagonal/api/v1/messages/responses"
 	"go-hexagonal/business/messages"
 
 	"github.com/labstack/echo/v4"
@@ -32,4 +33,17 @@ func (controller *Controller) InsertMessage(c echo.Context) error {
 	}
 
 	return c.JSON(common.NewSuccessResponseWithoutData())
+}
+
+func (controller *Controller) GetMessagesByChatroom(c echo.Context) error {
+	chatroom := c.Param("chatroom")
+
+	messages, err := controller.service.GetMessagesByChatroom(chatroom)
+	if err != nil {
+		return c.JSON(common.NewErrorBusinessResponse(err))
+	}
+
+	response := responses.NewGetMessagesByChatroomResponse(messages)
+
+	return c.JSON(common.NewSuccessResponse(response))
 }

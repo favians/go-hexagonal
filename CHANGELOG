@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.0.2] - 2023-10-14
+## [0.0.3] - 2023-10-15 (CHB-2)
+
+### Added
+
+- Added new endpoint to list messages from a specific chatroom by [Arturo Vial](https://github.com/ratolibre1)
+
+## [0.0.2] - 2023-10-14 (CHB-1)
 
 ### Added
 

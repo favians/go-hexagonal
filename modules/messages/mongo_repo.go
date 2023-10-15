@@ -5,7 +5,9 @@ import (
 	"go-hexagonal/business/messages"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type MongoDBRepository struct {
@@ -57,4 +59,35 @@ func (repo *MongoDBRepository) InsertMessage(message messages.Message) error {
 	}
 
 	return nil
+}
+
+func (repo *MongoDBRepository) GetMessagesByChatroom(chatroom string) ([]messages.Message, error) {
+	var messages []messages.Message
+
+	filter := bson.M{"chatroom": chatroom}
+
+	option := options.Find()
+	option.SetSort(bson.D{{Key: "timestamp", Value: -1}})
+	option.SetLimit(50)
+
+	cursor, err := repo.collection.Find(context.Background(), filter, option)
+	if err != nil {
+		return messages, err
+	}
+
+	defer cursor.Close(context.Background())
+
+	for cursor.Next(context.TODO()) {
+		var col collection
+
+		err := cursor.Decode(&col)
+		if err != nil {
+			return messages, err
+		}
+
+		message := col.ToMessage()
+		messages = append(messages, message)
+	}
+
+	return messages, nil
 }
