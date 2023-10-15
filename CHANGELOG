@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Sending a command-like message gets its own workflow instead of storing it by [Arturo Vial](https://github.com/ratolibre1)
 
+### Changed
+
+- Renamed the module to "chat-hex" by [Arturo Vial](https://github.com/ratolibre1)
+
 ## [0.0.3] - 2023-10-15 (CHB-2)
 
 ### Added
