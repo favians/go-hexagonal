@@ -1,9 +1,9 @@
 package messages
 
 import (
-	"go-hexagonal/business"
-	primitiveIDGenerator "go-hexagonal/util/primiviteIDGenerator"
-	"go-hexagonal/util/validator"
+	"chat-hex/business"
+	primitiveIDGenerator "chat-hex/util/primiviteIDGenerator"
+	"chat-hex/util/validator"
 	"time"
 )
 
@@ -51,4 +51,14 @@ func (s *service) GetMessagesByChatroom(chatroom string) ([]Message, error) {
 	}
 
 	return messages, err
+}
+
+func (s *service) MessageHasCommandStructure(insertMessageSpec InsertMessageSpec) bool {
+	err := validator.GetValidator().Struct(insertMessageSpec)
+	if err != nil {
+		return false
+	}
+
+	firstCharacter:= insertMessageSpec.Content[0:1]
+	return firstCharacter == "/"
 }

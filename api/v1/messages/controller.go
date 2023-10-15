@@ -1,21 +1,24 @@
 package messages
 
 import (
-	"go-hexagonal/api/common"
-	"go-hexagonal/api/v1/messages/requests"
-	"go-hexagonal/api/v1/messages/responses"
-	"go-hexagonal/business/messages"
+	"chat-hex/api/common"
+	"chat-hex/api/v1/messages/requests"
+	"chat-hex/api/v1/messages/responses"
+	"chat-hex/business/commands"
+	"chat-hex/business/messages"
 
 	"github.com/labstack/echo/v4"
 )
 
 type Controller struct {
 	service messages.Service
+	commandsService commands.Service
 }
 
-func NewController(service messages.Service) *Controller {
+func NewController(service messages.Service, commandsService commands.Service) *Controller {
 	return &Controller{
 		service,
+		commandsService,
 	}
 }
 
@@ -27,9 +30,17 @@ func (controller *Controller) InsertMessage(c echo.Context) error {
 		return c.JSON(common.NewBadRequestResponse())
 	}
 
-	err = controller.service.InsertMessage(*insertMessageRequest.ToInsertMessageSpec())
-	if err != nil {
-		return c.JSON(common.NewErrorBusinessResponse(err))
+	messageHasCommandStructure := controller.service.MessageHasCommandStructure(*insertMessageRequest.ToInsertMessageSpec())
+	if messageHasCommandStructure {
+		err = controller.commandsService.ProcessCommand(*insertMessageRequest.ToCommandSpec())
+		if err != nil {
+			return c.JSON(common.NewErrorBusinessResponse(err))
+		}
+	} else {
+		err = controller.service.InsertMessage(*insertMessageRequest.ToInsertMessageSpec())
+		if err != nil {
+			return c.JSON(common.NewErrorBusinessResponse(err))
+		}
 	}
 
 	return c.JSON(common.NewSuccessResponseWithoutData())

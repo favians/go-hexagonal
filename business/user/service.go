@@ -1,9 +1,9 @@
 package user
 
 import (
-	"go-hexagonal/business"
-	"go-hexagonal/util/primiviteIDGenerator"
-	"go-hexagonal/util/validator"
+	"chat-hex/business"
+	"chat-hex/util/primiviteIDGenerator"
+	"chat-hex/util/validator"
 	"time"
 )
 

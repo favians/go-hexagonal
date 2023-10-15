@@ -1,7 +1,7 @@
 package response
 
 import (
-	"go-hexagonal/business/user"
+	"chat-hex/business/user"
 	"time"
 )
 
