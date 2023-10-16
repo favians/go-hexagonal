@@ -2,7 +2,7 @@ package messages
 
 import (
 	"chat-hex/business"
-	primitiveIDGenerator "chat-hex/util/primiviteIDGenerator"
+	primitiveIDGenerator "chat-hex/util/primitiveIDGenerator"
 	"chat-hex/util/validator"
 	"time"
 )

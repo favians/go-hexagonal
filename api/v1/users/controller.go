@@ -19,6 +19,18 @@ func NewController(service users.Service) *Controller {
 }
 
 func (controller *Controller) EnterChatroom(c echo.Context) error {
+	enterChatroomRequest := new(requests.EnterChatroomRequest)
+
+	err := c.Bind(enterChatroomRequest)
+	if err != nil {
+		return c.JSON(common.NewBadRequestResponse())
+	}
+
+	err = controller.service.EnterChatroom(*enterChatroomRequest.ToEnterChatroomSpec())
+	if err != nil {
+		return c.JSON(common.NewErrorBusinessResponse(err))
+	}
+
 	return nil
 }
 

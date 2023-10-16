@@ -48,6 +48,19 @@ func NewMongoDBRepository(db *mongo.Database) *MongoDBRepository {
 	}
 }
 
+func (repo *MongoDBRepository) EnterChatroom(email string, chatroom string) error {
+	filter := bson.M{"email": email}
+
+	update := bson.M{"$set": bson.M{"currentRoom": chatroom}}
+
+    _, err := repo.collection.UpdateOne(context.Background(), filter, update)
+    if err != nil {
+			return err
+    }
+
+		return nil
+}
+
 func (repo *MongoDBRepository) LeaveChatroom(email string) error {
 	filter := bson.M{"email": email}
 

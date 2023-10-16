@@ -9,9 +9,11 @@ import (
 	"chat-hex/api"
 	messagesController "chat-hex/api/v1/messages"
 	usersController "chat-hex/api/v1/users"
+	chatroomsService "chat-hex/business/chatrooms"
 	commandsService "chat-hex/business/commands"
 	messagesService "chat-hex/business/messages"
 	usersService "chat-hex/business/users"
+	chatroomsRepository "chat-hex/modules/chatrooms"
 	messagesRepository "chat-hex/modules/messages"
 	usersRepository "chat-hex/modules/users"
 
@@ -67,9 +69,13 @@ func main() {
 	//create echo http
 	e := echo.New()
 
+	//initiate chatrooms
+	chatroomsRepo := chatroomsRepository.NewMongoDBRepository(dbConnection)
+	chatroomsService := chatroomsService.NewService(chatroomsRepo)
+
 	//initiate users
 	usersRepo := usersRepository.NewMongoDBRepository(dbConnection)
-	usersService := usersService.NewService(usersRepo)
+	usersService := usersService.NewService(usersRepo, chatroomsService)
 	usersController := usersController.NewController(usersService)
 
 	//initiate commands

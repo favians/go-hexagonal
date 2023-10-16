@@ -94,12 +94,12 @@ func (repo *MongoDBRepository) FindAllUserWithPagination(skip int, rowPerPage in
 
 	var users []user.User
 
-	rowPageWithAddtion := rowPerPage + 1
+	rowPageWithAddition := rowPerPage + 1
 
 	option := options.Find()
 	option.SetSort(bson.D{{Key: "_id", Value: 1}})
 	option.SetSkip(int64(skip))
-	option.SetLimit(int64(rowPageWithAddtion))
+	option.SetLimit(int64(rowPageWithAddition))
 
 	cursor, err := repo.collection.Find(context.Background(), bson.M{}, option)
 	if err != nil {

@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.0.5] - 2023-10-16 (CHB-6)
+
+### Added
+
+- Added new endpoints to enter and leave chatrooms by [Arturo Vial](https://github.com/ratolibre1)
+- Added Chatrooms and Users modules by [Arturo Vial](https://github.com/ratolibre1)
+
+### Changed
+
+- Cleaned some English errors in original project by [Arturo Vial](https://github.com/ratolibre1)
+
+### Removed
+
+- Removed some calls to original User package (to be removed in the future) by [Arturo Vial](https://github.com/ratolibre1)
+
 ## [0.0.4] - 2023-10-15 (CHB-3)
 
 ### Added
