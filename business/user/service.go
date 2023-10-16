@@ -2,7 +2,7 @@ package user
 
 import (
 	"chat-hex/business"
-	"chat-hex/util/primiviteIDGenerator"
+	"chat-hex/util/primitiveIDGenerator"
 	"chat-hex/util/validator"
 	"time"
 )
@@ -49,7 +49,7 @@ func (s *service) InsertUser(insertUserSpec InsertUserSpec, createdBy string) er
 		return business.ErrInvalidSpec
 	}
 
-	id := primiviteIDGenerator.GenerateID()
+	id := primitiveIDGenerator.GenerateID()
 	user := NewUser(
 		id,
 		insertUserSpec.Name,
