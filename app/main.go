@@ -8,12 +8,12 @@ import (
 
 	"chat-hex/api"
 	messagesController "chat-hex/api/v1/messages"
-	userController "chat-hex/api/v1/user"
+	usersController "chat-hex/api/v1/users"
 	commandsService "chat-hex/business/commands"
 	messagesService "chat-hex/business/messages"
-	userService "chat-hex/business/user"
+	usersService "chat-hex/business/users"
 	messagesRepository "chat-hex/modules/messages"
-	userRepository "chat-hex/modules/user"
+	usersRepository "chat-hex/modules/users"
 
 	"os"
 	"os/signal"
@@ -67,6 +67,11 @@ func main() {
 	//create echo http
 	e := echo.New()
 
+	//initiate users
+	usersRepo := usersRepository.NewMongoDBRepository(dbConnection)
+	usersService := usersService.NewService(usersRepo)
+	usersController := usersController.NewController(usersService)
+
 	//initiate commands
 	commandsService := commandsService.NewService()
 
@@ -75,13 +80,8 @@ func main() {
 	messagesService := messagesService.NewService(messagesRepo)
 	messagesController := messagesController.NewController(messagesService, commandsService)
 
-	//initiate users
-	userRepo := userRepository.NewMongoDBRepository(dbConnection)
-	userService := userService.NewService(userRepo)
-	userController := userController.NewController(userService)
-
 	//register paths
-	api.RegisterPaths(e, messagesController, userController)
+	api.RegisterPaths(e, usersController, messagesController)
 
 	// run server
 	go func() {
