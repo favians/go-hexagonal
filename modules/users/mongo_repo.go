@@ -1,6 +1,7 @@
 package mongodb
 
 import (
+	"chat-hex/business"
 	"chat-hex/business/users"
 	"context"
 
@@ -46,6 +47,24 @@ func NewMongoDBRepository(db *mongo.Database) *MongoDBRepository {
 	return &MongoDBRepository{
 		db.Collection("users"),
 	}
+}
+
+func (repo *MongoDBRepository) FindUserByEmail(email string) (*users.User, error) {
+	var col collection
+
+	filter := bson.M{"email": email}
+
+	if err := repo.collection.FindOne(context.TODO(), filter).Decode(&col); err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, business.ErrNotFound
+		}
+
+		return nil, err
+	}
+
+	user := col.ToUser()
+
+	return &user, nil
 }
 
 func (repo *MongoDBRepository) EnterChatroom(email string, chatroom string) error {
