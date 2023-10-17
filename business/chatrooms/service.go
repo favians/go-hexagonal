@@ -16,3 +16,12 @@ func (s *service) FindChatroomByCode(code string) (*Chatroom, error) {
 
 	return chatroom, nil
 }
+
+func (s *service) GetChatrooms() ([]Chatroom, error) {
+	chatrooms, err := s.repository.GetChatrooms()
+	if err != nil {
+		return nil, err
+	}
+
+	return chatrooms, nil
+}

@@ -2,6 +2,7 @@ package api
 
 import (
 	"chat-hex/api/v1/auth"
+	"chat-hex/api/v1/chatrooms"
 	"chat-hex/api/v1/messages"
 	"chat-hex/api/v1/users"
 	"chat-hex/middlewares"
@@ -10,7 +11,7 @@ import (
 )
 
 //RegisterPaths Register all V1 API with routing path
-func RegisterPaths(e *echo.Echo, authController *auth.Controller, usersController *users.Controller, messagesController *messages.Controller) {
+func RegisterPaths(e *echo.Echo, authController *auth.Controller, usersController *users.Controller, chatroomsController *chatrooms.Controller, messagesController *messages.Controller) {
 	if authController == nil {
 		panic("auth controller cannot be nil")
 	}
@@ -31,6 +32,10 @@ func RegisterPaths(e *echo.Echo, authController *auth.Controller, usersControlle
 	usersV1 := e.Group("v1/users")
 	usersV1.PATCH("/enter-chatroom", middlewares.Auth(usersController.EnterChatroom, authController.AuthError))
 	usersV1.PATCH("/leave-chatroom", middlewares.Auth(usersController.LeaveChatroom, authController.AuthError))
+
+	//chatrooms
+	chatroomsV1 := e.Group("v1/chatrooms")
+	chatroomsV1.GET("", middlewares.Auth(chatroomsController.GetChatrooms, authController.AuthError))
 
 	//messages
 	messagesV1 := e.Group("v1/messages")
