@@ -64,3 +64,30 @@ func (repo *MongoDBRepository) FindChatroomByCode(code string) (*chatrooms.Chatr
 
 	return &chatroom, nil
 }
+
+func (repo *MongoDBRepository) GetChatrooms() ([]chatrooms.Chatroom, error) {
+	var chatrooms []chatrooms.Chatroom
+
+	filter := bson.M{}
+
+	cursor, err := repo.collection.Find(context.Background(), filter)
+	if err != nil {
+		return chatrooms, err
+	}
+
+	defer cursor.Close(context.Background())
+
+	for cursor.Next(context.TODO()) {
+		var col collection
+
+		err := cursor.Decode(&col)
+		if err != nil {
+			return chatrooms, err
+		}
+
+		chatroom := col.ToChatroom()
+		chatrooms = append(chatrooms, chatroom)
+	}
+
+	return chatrooms, nil
+}

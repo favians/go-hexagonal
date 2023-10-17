@@ -8,6 +8,7 @@ import (
 
 	"chat-hex/api"
 	authController "chat-hex/api/v1/auth"
+	chatroomsController "chat-hex/api/v1/chatrooms"
 	messagesController "chat-hex/api/v1/messages"
 	usersController "chat-hex/api/v1/users"
 	authService "chat-hex/business/auth"
@@ -74,6 +75,7 @@ func main() {
 	//initiate chatrooms
 	chatroomsRepo := chatroomsRepository.NewMongoDBRepository(dbConnection)
 	chatroomsService := chatroomsService.NewService(chatroomsRepo)
+	chatroomsController := chatroomsController.NewController(chatroomsService)
 
 	//initiate users
 	usersRepo := usersRepository.NewMongoDBRepository(dbConnection)
@@ -93,7 +95,7 @@ func main() {
 	messagesController := messagesController.NewController(messagesService, commandsService)
 
 	//register paths
-	api.RegisterPaths(e, authController, usersController, messagesController)
+	api.RegisterPaths(e, authController, usersController, chatroomsController, messagesController)
 
 	// run server
 	go func() {
