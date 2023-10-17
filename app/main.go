@@ -7,8 +7,10 @@ import (
 	"fmt"
 
 	"chat-hex/api"
+	authController "chat-hex/api/v1/auth"
 	messagesController "chat-hex/api/v1/messages"
 	usersController "chat-hex/api/v1/users"
+	authService "chat-hex/business/auth"
 	chatroomsService "chat-hex/business/chatrooms"
 	commandsService "chat-hex/business/commands"
 	messagesService "chat-hex/business/messages"
@@ -78,6 +80,10 @@ func main() {
 	usersService := usersService.NewService(usersRepo, chatroomsService)
 	usersController := usersController.NewController(usersService)
 
+	//initiate auth
+	authService := authService.NewService()
+	authController := authController.NewController(authService, usersService)
+
 	//initiate commands
 	commandsService := commandsService.NewService()
 
@@ -87,7 +93,7 @@ func main() {
 	messagesController := messagesController.NewController(messagesService, commandsService)
 
 	//register paths
-	api.RegisterPaths(e, usersController, messagesController)
+	api.RegisterPaths(e, authController, usersController, messagesController)
 
 	// run server
 	go func() {
