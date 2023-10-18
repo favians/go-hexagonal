@@ -1,21 +1,31 @@
 package main
 
 import (
+	"chat-hex/config"
+	"chat-hex/modules/mongodb"
 	"context"
 	"fmt"
-	"go-hexagonal/config"
-	"go-hexagonal/modules/mongodb"
 
-	"go-hexagonal/api"
-	userController "go-hexagonal/api/v1/user"
-	userService "go-hexagonal/business/user"
-	userRepository "go-hexagonal/modules/user"
+	"chat-hex/api"
+	authController "chat-hex/api/v1/auth"
+	chatroomsController "chat-hex/api/v1/chatrooms"
+	messagesController "chat-hex/api/v1/messages"
+	usersController "chat-hex/api/v1/users"
+	authService "chat-hex/business/auth"
+	chatroomsService "chat-hex/business/chatrooms"
+	commandsService "chat-hex/business/commands"
+	messagesService "chat-hex/business/messages"
+	usersService "chat-hex/business/users"
+	chatroomsRepository "chat-hex/modules/chatrooms"
+	messagesRepository "chat-hex/modules/messages"
+	usersRepository "chat-hex/modules/users"
 
 	"os"
 	"os/signal"
 	"time"
 
 	echo "github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -60,20 +70,37 @@ func main() {
 	//initialize database connection based on given config
 	dbConnection := newDatabaseConnection(config)
 
-	//initiate item repository
-	userRepo := userRepository.NewMongoDBRepository(dbConnection)
-
-	//initiate item service
-	userService := userService.NewService(userRepo)
-
-	//initiate item controller
-	userController := userController.NewController(userService)
-
 	//create echo http
 	e := echo.New()
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))  
 
-	//register API path and handler
-	api.RegisterPath(e, userController)
+	//initiate chatrooms
+	chatroomsRepo := chatroomsRepository.NewMongoDBRepository(dbConnection)
+	chatroomsService := chatroomsService.NewService(chatroomsRepo)
+	chatroomsController := chatroomsController.NewController(chatroomsService)
+
+	//initiate users
+	usersRepo := usersRepository.NewMongoDBRepository(dbConnection)
+	usersService := usersService.NewService(usersRepo, chatroomsService)
+	usersController := usersController.NewController(usersService)
+
+	//initiate auth
+	authService := authService.NewService()
+	authController := authController.NewController(authService, usersService)
+
+	//initiate commands
+	commandsService := commandsService.NewService()
+
+	//initiate messages
+	messagesRepo := messagesRepository.NewMongoDBRepository(dbConnection)
+	messagesService := messagesService.NewService(messagesRepo)
+	messagesController := messagesController.NewController(messagesService, commandsService)
+
+	//register paths
+	api.RegisterPaths(e, authController, usersController, chatroomsController, messagesController)
 
 	// run server
 	go func() {

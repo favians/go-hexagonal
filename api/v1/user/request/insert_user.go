@@ -1,6 +1,6 @@
 package request
 
-import "go-hexagonal/business/user"
+import "chat-hex/business/user"
 
 //InsertUserRequest create User request payload
 type InsertUserRequest struct {

@@ -1,9 +1,9 @@
 package item
 
 import (
+	"chat-hex/business"
+	"chat-hex/business/user"
 	"context"
-	"go-hexagonal/business"
-	"go-hexagonal/business/user"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -63,7 +63,7 @@ func (col *collection) ToUser() user.User {
 //NewMongoDBRepository Generate mongo DB user repository
 func NewMongoDBRepository(db *mongo.Database) *MongoDBRepository {
 	return &MongoDBRepository{
-		db.Collection("user"),
+		db.Collection("users"),
 	}
 }
 
@@ -94,12 +94,12 @@ func (repo *MongoDBRepository) FindAllUserWithPagination(skip int, rowPerPage in
 
 	var users []user.User
 
-	rowPageWithAddtion := rowPerPage + 1
+	rowPageWithAddition := rowPerPage + 1
 
 	option := options.Find()
 	option.SetSort(bson.D{{Key: "_id", Value: 1}})
 	option.SetSkip(int64(skip))
-	option.SetLimit(int64(rowPageWithAddtion))
+	option.SetLimit(int64(rowPageWithAddition))
 
 	cursor, err := repo.collection.Find(context.Background(), bson.M{}, option)
 	if err != nil {

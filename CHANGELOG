@@ -1,0 +1,75 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [0.0.8] - 2023-10-17 (CHB-11)
+
+### Added
+
+- Added CORS permissions so local Angular can connect to local Go by [Arturo Vial](https://github.com/ratolibre1)
+
+## [0.0.7] - 2023-10-17 (CHB-9)
+
+### Added
+
+- Added new endpoint to get full list of chatrooms by [Arturo Vial](https://github.com/ratolibre1)
+
+## [0.0.6] - 2023-10-17 (CHB-7)
+
+### Added
+
+- Added new endpoints to validate login details and return a JWT token by [Arturo Vial](https://github.com/ratolibre1)
+- Added Auth module by [Arturo Vial](https://github.com/ratolibre1)
+- Added functions to find users by email, hash and validate passwords by [Arturo Vial](https://github.com/ratolibre1)
+
+## [0.0.5] - 2023-10-16 (CHB-6)
+
+### Added
+
+- Added new endpoints to enter and leave chatrooms by [Arturo Vial](https://github.com/ratolibre1)
+- Added Chatrooms and Users modules by [Arturo Vial](https://github.com/ratolibre1)
+
+### Changed
+
+- Cleaned some English errors in original project by [Arturo Vial](https://github.com/ratolibre1)
+
+### Removed
+
+- Removed some calls to original User package (to be removed in the future) by [Arturo Vial](https://github.com/ratolibre1)
+
+## [0.0.4] - 2023-10-15 (CHB-3)
+
+### Added
+
+- Sending a command-like message gets its own workflow instead of storing it by [Arturo Vial](https://github.com/ratolibre1)
+
+### Changed
+
+- Renamed the module to "chat-hex" by [Arturo Vial](https://github.com/ratolibre1)
+
+## [0.0.3] - 2023-10-15 (CHB-2)
+
+### Added
+
+- Added new endpoint to list messages from a specific chatroom by [Arturo Vial](https://github.com/ratolibre1)
+
+## [0.0.2] - 2023-10-14 (CHB-1)
+
+### Added
+
+- Added Messages folders and endpoint to send a message by [Arturo Vial](https://github.com/ratolibre1)
+
+## [0.0.1] - 2023-10-14
+
+### Added
+
+- Hexagonal Architecture scaffolding forked from [Github](https://github.com/favians/go-hexagonal) by [Arturo Vial](https://github.com/ratolibre1)
+
+### Changed
+
+- Cleaned some stuff, ensured connection with DB by [Arturo Vial](https://github.com/ratolibre1)

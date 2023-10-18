@@ -1,10 +1,10 @@
 package user
 
 import (
-	"go-hexagonal/api/common"
-	"go-hexagonal/api/v1/user/request"
-	"go-hexagonal/api/v1/user/response"
-	"go-hexagonal/business/user"
+	"chat-hex/api/common"
+	"chat-hex/api/v1/user/request"
+	"chat-hex/api/v1/user/response"
+	"chat-hex/business/user"
 	"strconv"
 
 	echo "github.com/labstack/echo/v4"

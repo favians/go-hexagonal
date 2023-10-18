@@ -1,7 +1,7 @@
 package common
 
 import (
-	"go-hexagonal/business"
+	"chat-hex/business"
 	"net/http"
 )
 
@@ -12,6 +12,7 @@ const (
 	errHasBeenModified     errorBusinessResponseCode = "data_has_been modified"
 	errNotFound            errorBusinessResponseCode = "data_not_found"
 	errInvalidSpec         errorBusinessResponseCode = "invalid_spec"
+	ErrInvalidCommand			 errorBusinessResponseCode = "invalid_command"
 )
 
 //BusinessResponse default payload response
@@ -21,7 +22,7 @@ type BusinessResponse struct {
 	Data    interface{}               `json:"data"`
 }
 
-//NewErrorBusinessResponse Response return choosen http status like 400 bad request 422 unprocessable entity, ETC, based on responseCode
+//NewErrorBusinessResponse Response return chosen http status like 400 bad request 422 unprocessable entity, ETC, based on responseCode
 func NewErrorBusinessResponse(err error) (int, BusinessResponse) {
 	return errorMapping(err)
 }
@@ -35,8 +36,10 @@ func errorMapping(err error) (int, BusinessResponse) {
 		return newNotFoundResponse()
 	case business.ErrInvalidSpec:
 		return newValidationResponse(err.Error())
+	case business.ErrInvalidCommand:
+		return newValidationResponse(err.Error())
 	case business.ErrHasBeenModified:
-		return newHasBeedModifiedResponse()
+		return newHasBeenModifiedResponse()
 	}
 }
 
@@ -49,8 +52,8 @@ func newInternalServerErrorResponse() (int, BusinessResponse) {
 	}
 }
 
-//newHasBeedModifiedResponse failed to validate request payload
-func newHasBeedModifiedResponse() (int, BusinessResponse) {
+//newHasBeenModifiedResponse failed to validate request payload
+func newHasBeenModifiedResponse() (int, BusinessResponse) {
 	return http.StatusBadRequest, BusinessResponse{
 		errHasBeenModified,
 		"Data has been modified",

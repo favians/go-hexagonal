@@ -1,6 +1,6 @@
 package response
 
-import "go-hexagonal/business/user"
+import "chat-hex/business/user"
 
 type getAllUserResponse struct {
 	Meta  meta              `json:"meta"`

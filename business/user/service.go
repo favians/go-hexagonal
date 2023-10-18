@@ -1,9 +1,9 @@
 package user
 
 import (
-	"go-hexagonal/business"
-	"go-hexagonal/util/primiviteIDGenerator"
-	"go-hexagonal/util/validator"
+	"chat-hex/business"
+	"chat-hex/util/primitiveIDGenerator"
+	"chat-hex/util/validator"
 	"time"
 )
 
@@ -49,7 +49,7 @@ func (s *service) InsertUser(insertUserSpec InsertUserSpec, createdBy string) er
 		return business.ErrInvalidSpec
 	}
 
-	id := primiviteIDGenerator.GenerateID()
+	id := primitiveIDGenerator.GenerateID()
 	user := NewUser(
 		id,
 		insertUserSpec.Name,
