@@ -25,6 +25,7 @@ import (
 	"time"
 
 	echo "github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -71,6 +72,10 @@ func main() {
 
 	//create echo http
 	e := echo.New()
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))  
 
 	//initiate chatrooms
 	chatroomsRepo := chatroomsRepository.NewMongoDBRepository(dbConnection)

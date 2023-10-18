@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.0.8] - 2023-10-17 (CHB-11)
+
+### Added
+
+- Added CORS permissions so local Angular can connect to local Go by [Arturo Vial](https://github.com/ratolibre1)
+
 ## [0.0.7] - 2023-10-17 (CHB-9)
 
 ### Added
